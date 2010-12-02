@@ -31,7 +31,7 @@ def _mkdir(d):
     except OSError, e:
         if e.errno != 17:
             raise e
-        print "%s directory already exists" % d
+        print "** %s directory already exists" % d
         return False
 
 def _create_file(dest, tpl=None, **ctx):
