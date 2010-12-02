@@ -1,3 +1,5 @@
 - Add sphinx-quickstart and docs support for extensions
 - Generate README
 - Generate LICENSE file
+- Create App
+- Migrate app from using site-packages to app engine layout in one command.
