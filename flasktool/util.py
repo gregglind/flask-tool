@@ -17,6 +17,7 @@ def _cd(path):
     chdir(original_wd)
 
 def _local(cmd, cwd=getcwd()):
+    print "Executing: `%s` from `%s`" % (cmd, cwd)
     p = Popen(cmd, shell=True, cwd=cwd, stderr=STDOUT)
     if (p.wait() != 0):
         raise Exception('Error executing: %s' % (cmd))
@@ -34,7 +35,7 @@ def _mkdir(d):
         return False
 
 def _create_file(dest, tpl=None, **ctx):
-    print "Creating %s" % dest
+    print "Creating %s at %s" % (dest, abspath(dest))
     _contents = jinja_env.get_template(tpl).render(**ctx) if tpl else ''
     with closing(open(dest, 'w')) as fp:
         fp.write(_contents)

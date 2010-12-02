@@ -32,9 +32,12 @@ class FlaskExtension(object):
         # Make dirs
         _mkdir(self.dir)
         with _cd(self.dir):
-            for d in ['docs', 'examples']:
+            for d in ['docs', 'examples', 'flaskext']:
                 _mkdir(d)
-        
+                
+            # Make gitignore
+            _create_file('.gitignore', '.gitignore.tpl', extension=self)
+            
             # Make setup.py
             _create_file('setup.py', 'setup.py.tpl', extension=self)
             

@@ -13,15 +13,11 @@ setup(
     namespace_packages=['flaskext'],
     zip_safe=False,
     platforms='any',
-    install_requires=[
-    {% for dep in extension.deps %}
-        '{{dep}}'{% if not loop.last %},{% endif %}
-    {% endfor %}
+    install_requires=[{% for dep in extension.deps %}
+        '{{dep}}'{% if not loop.last %},{% endif %}{% endfor %}
     ],
     test_suite='{{extension.test_suite}}',
-    classifiers=[
-    {% for classifier in extension.classifiers %}
-        '{{classifier}}'{% if not loop.last %},{% endif %}
-    {% endfor %}
+    classifiers=[{% for classifier in extension.classifiers %}
+        '{{classifier}}'{% if not loop.last %},{% endif %}{% endfor %}
     ]
 )
