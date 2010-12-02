@@ -1,0 +1,3 @@
+- Add sphinx-quickstart and docs support for extensions
+- Generate README
+- Generate LICENSE file
