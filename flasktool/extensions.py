@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+from os.path import exists
 from .util import _mkdir, _cd, _create_file
 
 DEFAULT_CLASSIFIERS = ['Environment :: Web Environment',
@@ -48,7 +49,8 @@ class FlaskExtension(object):
             _create_file('flaskext/__init__.py', '__init__.py.tpl', extension=self)
         
             # Make module
-            _create_file('flaskext/%s.py' % self.module_name)
+            if not exists('flaskext/%s.py' % self.module_name):
+                _create_file('flaskext/%s.py' % self.module_name)
             
             # Make test suite
             _create_file('%s.py' % self.test_suite, 'test_suite.py.tpl', extension=self)
