@@ -1,7 +1,7 @@
 from __future__ import absolute_import 
 
 from .extensions import FlaskExtension
-from flask.script import prompt, prompt_choices
+from flaskext.script import prompt, prompt_choices
 
 def flaskext_create():
     name = prompt('Extension Name: (ie CouchDBKit)')

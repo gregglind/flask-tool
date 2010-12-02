@@ -13,8 +13,8 @@ setup(
     author_email='hrabovsky.lucas@gmail.com',
     description='Some tooling for developing with flask.',
     long_description=__doc__,
-    packages=['flaskext'],
-    namespace_packages=['flaskext'],
+    packages=['flasktool'],
+    namespace_packages=['flasktool'],
     zip_safe=False,
     platforms='any',
     install_requires=[
@@ -34,7 +34,7 @@ setup(
     ],
     entry_points = {
         'console_scripts': [
-            'flasktool = flasktool:console'
+            'flasktool = flasktool.console:run'
         ],
     }
 )
