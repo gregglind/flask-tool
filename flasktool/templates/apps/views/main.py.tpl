@@ -1,8 +1,8 @@
-from flask import Module
+from flask import Module, render_template, current_app, g, session
 
-main = Module('main')
+main = Module(__name__)
 
 @main.route('/')
 def index():
-    return "Win!"
+    return render_template('index.html')
 

@@ -6,8 +6,9 @@ from subprocess import Popen, STDOUT
 from jinja2 import Environment, FileSystemLoader
 from contextlib import contextmanager, closing
 
-jinja_env = Environment(loader=FileSystemLoader(
-    join(abspath(dirname(__file__)), 'templates')))
+tool_path = abspath(dirname(__file__))
+jinja_env = Environment(loader=FileSystemLoader(join(tool_path, 'templates')))
+
 
 @contextmanager
 def _cd(path):
@@ -16,11 +17,13 @@ def _cd(path):
     yield
     chdir(original_wd)
 
+
 def _local(cmd, cwd=getcwd()):
     print "Executing: `%s` from `%s`" % (cmd, cwd)
     p = Popen(cmd, shell=True, cwd=cwd, stderr=STDOUT)
     if (p.wait() != 0):
         raise Exception('Error executing: %s' % (cmd))
+
 
 def _mkdir(d):
     full_path = abspath(d)
@@ -33,6 +36,7 @@ def _mkdir(d):
             raise e
         print "** %s directory already exists" % d
         return False
+
 
 def _create_file(dest, tpl=None, **ctx):
     print "Creating %s at %s" % (dest, abspath(dest))

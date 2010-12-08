@@ -4,8 +4,9 @@ from __future__ import with_statement
 from os.path import exists, isfile, join
 from contextlib import closing
 from subprocess import Popen
+from shutil import copytree
 
-from .util import _mkdir, _cd, _create_file
+from .util import _mkdir, _cd, _create_file, tool_path
 
 class FlaskApplication(object):
     def __init__(self, name):
@@ -26,15 +27,22 @@ class FlaskApplication(object):
             # Create tests
             _create_file('tests.py', 'apps/tests.py.tpl', app=self)
             
-            
             _mkdir(self.package_name)
             with _cd(self.package_name):
                 # Create __init__
                 _create_file('__init__.py', 'apps/__init__.py.tpl', app=self)
-                
+            
+                _create_file('settings.py', 'apps/settings.py.tpl', app=self)
+            
                 # Create models
                 _create_file('models.py', 'apps/models.py.tpl', app=self)
                 
+                # Create static
+                copytree(join(tool_path, 'templates/apps/static'), 'static')    
+                
+                # Create templates
+                copytree(join(tool_path, 'templates/apps/templates'), 'templates')    
+
                 # Create views
                 _mkdir('views')
                 with _cd('views'):
