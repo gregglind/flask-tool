@@ -18,7 +18,7 @@ manager = Manager(create_app, False)
 @manager.option('--authorname', dest='author_name', required=False)
 @manager.option('--authoremail', dest='author_email', required=False)
 @manager.option('--license', dest='license', required=False,
-    help="BSD, MIT, or WTFPL", default="BSD")
+    help="BSD or MIT", default="BSD")
 @manager.option('--requires', dest='requires', required=False,
     help="Comma separated list of required packages")
 @manager.option('--description', dest='author_email', required=False)
