@@ -2,7 +2,7 @@ from __future__ import absolute_import
 from __future__ import with_statement
 
 from os.path import exists, isfile, join
-from datetime.datetime import today
+import datetime
 from contextlib import closing
 from subprocess import Popen
 
@@ -64,14 +64,14 @@ class FlaskExtension(object):
 
             # Make license
             _create_file('LICENSE', 'licenses/%s.tpl' % (self.license),
-                year=today().year, author_name=self.author_name)
+                year=datetime.datetime.today().year, author_name=self.author_name)
                 
             # Make docs
             with _cd('docs'):
                 # From the original extension wizard
                 # https://github.com/mitsuhiko/flask-extension-wizard/blob/master/make-flaskext.py
                 Popen(['sphinx-quickstart']).wait()
-                if isfile(join(docdir, 'source', 'conf.py')):
+                if isfile(join('source', 'conf.py')):
                     sphinx_conf_py = join('source', 'conf.py')
                 else:
                     sphinx_conf_py = join('conf.py')
@@ -94,5 +94,3 @@ class FlaskExtension(object):
                 with _cd('_themes'):
                     Popen("wget http://download.github.com/mitsuhiko-flask-sphinx-themes-3d964b6.tar.gz").wait() 
                     Popen("tar -zxvf  mitsuhiko-flask-sphinx-themes-3d964b6.tar.gz --strip 1").wait()
-                
-                

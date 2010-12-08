@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 
 from .extensions import FlaskExtension
+from .apps import FlaskApplication
 from flask import Flask
 from flaskext.script import prompt, prompt_choices, Manager
 import string
@@ -63,6 +64,14 @@ def create_ext(name=None, url=None, author_name=None, author_email=None,
     print "###################"
     print "Flask-%s created in %s" % (extension.name, extension.dir)
     print "###################"
+
+@manager.option('--name', dest='name', required=False)
+def create_app(name=None):
+    if not name:
+        name = prompt('App Name')
+    _app = FlaskApplication(name)
+    _app.bootstrap()
+    
 
 def run():
     manager.run()
