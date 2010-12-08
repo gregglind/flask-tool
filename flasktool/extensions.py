@@ -1,7 +1,11 @@
 from __future__ import absolute_import
+from __future__ import with_statement
 
-from os.path import exists
+from os.path import exists, isfile, join
 from datetime.datetime import today
+from contextlib import closing
+from subprocess import Popen
+
 from .util import _mkdir, _cd, _create_file
 
 DEFAULT_CLASSIFIERS = ['Environment :: Web Environment',
@@ -34,7 +38,7 @@ class FlaskExtension(object):
         # Make dirs
         _mkdir(self.dir)
         with _cd(self.dir):
-            for d in ['docs', 'examples', 'flaskext']:
+            for d in ['docs', 'examples', 'flaskext', 'docs/_themes']:
                 _mkdir(d)
 
             # Make gitignore
@@ -61,3 +65,32 @@ class FlaskExtension(object):
             # Make license
             _create_file('LICENSE', 'licenses/%s.tpl' % (self.license),
                 year=today().year, author_name=self.author_name)
+                
+            # Make docs
+            with _cd('docs'):
+                Popen(['sphinx-quickstart']).wait()
+                if isfile(join(docdir, 'source', 'conf.py')):
+                    sphinx_conf_py = join('source', 'conf.py')
+                else:
+                    sphinx_conf_py = join('conf.py')
+                    
+                with closing(open(sphinx_conf_py, 'r')) as f:
+                    config = f.read().splitlines()
+                    for idx, line in enumerate(config):
+                        if line.startswith('#sys.path.append'):
+                            config[idx] = "sys.path.append(os.path.abspath('_themes'))"
+                        elif line.startswith('html_theme ='):
+                            config[idx] = 'html_theme = %r' % self.sphinx_theme
+                        elif line == '#html_theme_path = []':
+                            config[idx] = "html_theme_path = ['_themes']"
+                        elif line.startswith('pygments_style ='):
+                            config[idx] = "#pygments_style = 'sphinx'"
+                with closing(open(sphinx_conf_py, 'w')) as f:
+                    f.write('\n'.join(config))
+                
+                # Get flask themes
+                with _cd('_themes'):
+                    Popen("wget http://download.github.com/mitsuhiko-flask-sphinx-themes-3d964b6.tar.gz").wait() 
+                    Popen("tar -zxvf  mitsuhiko-flask-sphinx-themes-3d964b6.tar.gz --strip 1").wait()
+                
+                
