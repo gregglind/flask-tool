@@ -46,14 +46,14 @@ class FlaskExtension(object):
             _create_file('README.md', 'README.md.tpl', extension=self)
         
             # Make __init__
-            _create_file('flaskext/__init__.py', '__init__.py.tpl', extension=self)
+            _create_file('flaskext/__init__.py', 'extensions/__init__.py.tpl', extension=self)
         
             # Make module
             if not exists('flaskext/%s.py' % self.module_name):
                 _create_file('flaskext/%s.py' % self.module_name)
             
             # Make test suite
-            _create_file('%s.py' % self.test_suite, 'test_suite.py.tpl', extension=self)
+            _create_file('%s.py' % self.test_suite, 'extensions/test_suite.py.tpl', extension=self)
             
             # Make docs assets
             # @todo (lucas) See sphinx/quickstart.  Setup docs w Sphinx then copy in Flask templates. 
