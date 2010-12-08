@@ -68,6 +68,8 @@ class FlaskExtension(object):
                 
             # Make docs
             with _cd('docs'):
+                # From the original extension wizard
+                # https://github.com/mitsuhiko/flask-extension-wizard/blob/master/make-flaskext.py
                 Popen(['sphinx-quickstart']).wait()
                 if isfile(join(docdir, 'source', 'conf.py')):
                     sphinx_conf_py = join('source', 'conf.py')
@@ -80,7 +82,7 @@ class FlaskExtension(object):
                         if line.startswith('#sys.path.append'):
                             config[idx] = "sys.path.append(os.path.abspath('_themes'))"
                         elif line.startswith('html_theme ='):
-                            config[idx] = 'html_theme = %r' % self.sphinx_theme
+                            config[idx] = 'html_theme = flask'
                         elif line == '#html_theme_path = []':
                             config[idx] = "html_theme_path = ['_themes']"
                         elif line.startswith('pygments_style ='):
