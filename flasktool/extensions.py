@@ -42,13 +42,13 @@ class FlaskExtension(object):
                 _mkdir(d)
 
             # Make gitignore
-            _create_file('.gitignore', '.gitignore.tpl', extension=self)
+            _create_file('.gitignore', 'extensions/.gitignore.tpl', extension=self)
 
             # Make setup.py
-            _create_file('setup.py', 'setup.py.tpl', extension=self)
+            _create_file('setup.py', 'extensions/setup.py.tpl', extension=self)
 
             # Make readme
-            _create_file('README.md', 'README.md.tpl', extension=self)
+            _create_file('README.md', 'extensions/README.md.tpl', extension=self)
 
             # Make __init__
             _create_file('flaskext/__init__.py',
