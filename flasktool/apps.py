@@ -14,6 +14,7 @@ class FlaskApplication(object):
         self.package_name = name.lower()
         self.dir = name.lower()
         self.environment_var = '%s_ENVIRONMENT' % name.upper()
+        self.module_names = ['api', 'main']
         
     def bootstrap(self):
         _mkdir(self.dir)
@@ -47,8 +48,8 @@ class FlaskApplication(object):
                 _mkdir('views')
                 with _cd('views'):
                     _create_file('__init__.py', 'apps/views/__init__.py.tpl', app=self)
-                    _create_file('api.py', 'apps/views/api.py.tpl', app=self)
-                    _create_file('main.py', 'apps/views/main.py.tpl', app=self)
+                    for module_name in self.module_names:
+                        _create_file('%s.py' % module_name, 'apps/views/module.py.tpl', app=self, module_name=module_name)
         
         
         

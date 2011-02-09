@@ -1,7 +1,4 @@
-from os import environ
-from os.path import dirname
-from pkgutil import iter_modules
-
+import os
 from flask import Flask
 import settings
 import models
@@ -11,17 +8,21 @@ def create_app(environment=None):
 
     # Config app for environment
     if not environment:
-        environment = environ.get('{{app.environment_var}}', 'Dev')
+        environment = os.environ.get('{{app.environment_var}}', 'Dev')
+
     app.config.from_object('{{app.package_name}}.settings.%s' % environment)
 
     # Init models
     models.init(app)
 
-    # Wire modules to app
-    from {{app.package_name}}.views.api import api
-    from {{app.package_name}}.views.main import main
+    # Import modules
+    {% for module_name in app.module_names %}
+    from {{app.package_name}}.views.{{module_name}} import {{module_name}}
+    {% endfor %}
     
-    app.register_module(api)
-    app.register_module(main)
+    # Register modules with app
+    {% for module_name in app.module_names %}
+    app.register_module({{module_name}})
+    {% endfor %}
     
     return app
