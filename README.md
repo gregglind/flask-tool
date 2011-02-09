@@ -1,6 +1,11 @@
 # Flask Tool 
 Tooling for Flask.
 
+## Install
+
+    pip install -e git+git://github.com/imlucas/flask-tool#egg=flasktool
+
+
 ## Create a new extension skeleton
 Creates setup.py, flaskext.__init__.py, test suite, readme, and sets up gitignore.
 
