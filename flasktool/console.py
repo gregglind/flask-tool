@@ -47,8 +47,22 @@ def create(what='app', name='MyAwesomeApp', layout='factory'):
     what = what[0]
     name = name[0]
     if what == 'app':
-        _app = FlaskApplication(name)
+        _app = FlaskApplication(name, layout=layout)
         _app.bootstrap()
+
+        print "###################"
+        print "Your new Flask app is ready!"
+        print "###################"
+        print "What to do now:"
+        print "- cd %s" % name
+        print "- Run ./manage.py runserver"
+        print "- Write your app and tests"
+        print "- Check in your code"
+        print "- setup an EC2 instance"
+        print "- Add credentials and hosts to fabfile.py"
+        print "- Run fab deploy"
+        print "- ???????"
+        print "- Profit!"
 
     elif what == 'ext':
         if not url:
