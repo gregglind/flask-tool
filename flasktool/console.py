@@ -14,11 +14,31 @@ def create_app(*args, **kwargs):
 
 manager = Manager(create_app, False)
 
-@manager.option('-l', '--layout', default='factory')
-@manager.option(nargs=1, dest='name')
-@manager.option(nargs=1, dest='what')
+whatnext = """
+###################
+Your new Flask app is ready.
+###################
+What to do now:
+$ cd %(name)s  # then...
+
+    - $ pip install -r requirements.txt
+    - $ ./manage.py runserver
+    - Add more commands to manage.py
+    - Write your app and tests
+    - Check in your code
+    - setup an EC2 instance
+    - Add credentials and hosts to fabfile.py
+    - Run fab deploy
+    - ???????
+    - Profit!
+"""
+
+
+@manager.option('-l', '--layout', default='factory',choices=['factory','heavy','simple'])
+@manager.option(nargs=1, dest='name',help='name of the app/directory')
+@manager.option(nargs=1, dest='what',help='what sort of thing to make',choices=['ext','app'])
 def create(what='app', name='MyAwesomeApp', layout='factory'):
-    """(ext|app) <name>"""
+    """(ext|app) <name>  # create an app or extension"""
     """
     flasktool create ext 'Flask-MongoEngine'
 
@@ -50,20 +70,8 @@ def create(what='app', name='MyAwesomeApp', layout='factory'):
         _app = FlaskApplication(name, layout=layout)
         _app.bootstrap()
 
-        print "###################"
-        print "Your new Flask app is ready!"
-        print "###################"
-        print "What to do now:"
-        print "- cd %s" % name
-        print "- Run ./manage.py runserver"
-        print "- Write your app and tests"
-        print "- Check in your code"
-        print "- setup an EC2 instance"
-        print "- Add credentials and hosts to fabfile.py"
-        print "- Run fab deploy"
-        print "- ???????"
-        print "- Profit!"
-
+        print whatnext % {'name':name}
+    
     elif what == 'ext':
         if not url:
             url = prompt('URL')
@@ -93,7 +101,13 @@ def create(what='app', name='MyAwesomeApp', layout='factory'):
         print "###################"
         print "Flask-%s created in %s" % (extension.name, extension.dir)
         print "###################"
-        
+
+
+@manager.option(nargs=1, dest='name',help='name of the app/directory')
+def next(what='app', name='MyAwesomeApp'):
+    """help for what to do next on <yourapp>"""
+    print whatnext % {'name':name[0]} 
+
 
 def run():
     manager.run()
